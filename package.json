@@ -1,11 +1,13 @@
 {
   "name": "helix-react",
-  "version": "0.0.0",
-  "description": "Reacf renderer for helix",
+  "version": "0.1.0",
+  "description": "React renderer for helix",
   "main": "lib/index.js",
   "files": [
-    "src/",
-    "lib/"
+    "lib/index.js",
+    "lib/html.js",
+    "lib/index.d.ts",
+    "lib/html.d.ts"
   ],
   "repository": {
     "type": "git",
