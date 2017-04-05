@@ -1,13 +1,15 @@
 {
   "name": "helix-react",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "React renderer for helix",
   "main": "lib/index.js",
   "files": [
     "lib/index.js",
-    "lib/html.js",
     "lib/index.d.ts",
-    "lib/html.d.ts"
+    "lib/html.js",
+    "lib/html.d.ts",
+    "lib/log.js",
+    "lib/log.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -36,7 +38,7 @@
   },
   "dependencies": {
     "@types/react": "^15.0.21",
-    "helix-js": "^1.1.4",
+    "helix-js": "^1.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   }
