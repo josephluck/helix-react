@@ -1,6 +1,6 @@
 {
   "name": "helix-react",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "React renderer for helix",
   "main": "lib/index.js",
   "files": [
@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@types/react": "^15.0.21",
-    "helix-js": "^1.2.0",
+    "helix-js": "1.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   }
