@@ -66,7 +66,7 @@ function viewThree (state, prev, actions) {
 let mount = document.createElement('div')
 document.body.appendChild(mount)
 
-helix({
+const app = helix({
   model: {
     state: {
       title: 'not set',
@@ -156,3 +156,6 @@ helix({
   },
   mount,
 })
+
+console.log(app)
+app.set('I was set')
