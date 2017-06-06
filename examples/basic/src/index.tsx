@@ -1,7 +1,43 @@
-import helix from '../../../src/index'
 import h from '../../../src/html'
+import HelixReact from '../../../src/index'
+import Helix from 'helix-js'
+import Twine from 'twine-js'
 
-function links ({
+interface State {
+  title: string
+}
+
+interface Reducers {
+  set: Twine.Reducer<Models, State, string>
+}
+
+interface Effects {}
+
+interface Subscriptions {}
+
+interface ModelApi {
+  state: State
+  actions: Twine.Actions<Reducers, Effects, Subscriptions>
+}
+
+type Models = Helix.Model<ModelApi>
+
+function model (): Twine.ModelImpl<State, Reducers, Effects, Subscriptions> {
+  return {
+    state: {
+      title: 'not set',
+    },
+    reducers: {
+      set (state, title) {
+        return Object.assign({}, state, {
+          title: title,
+        })
+      },
+    },
+  }
+}
+
+function Links ({
   onRouteClick,
 }) {
   const style = {
@@ -20,142 +56,94 @@ function links ({
   )
 }
 
-function viewOne (state, prev, actions) {
-  return (
-    <div>
-      {links({
-        onRouteClick: path => actions.location.set(path),
-      })}
-      <h1>view one</h1>
-      {state.title}
+const pageOne: Helix.Page<Models> = {
+  view (state, prev, actions) {
+    return (
       <div>
-        <input value={state.title} onInput={(e: any) => actions.set(e.target.value)} />
+        <Links
+          onRouteClick={actions.location.set}
+        />
+        <h1>view one</h1>
+        {state.title}
+        <div>
+          <input value={state.title} onInput={(e: any) => actions.set(e.target.value)} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  },
 }
-function viewTwo (state, prev, actions) {
-  return (
-    <div>
-      {links({
-        onRouteClick: path => actions.location.set(path),
-      })}
-      <h1>view two</h1>
-      {state.title}
+
+const pageTwo: Helix.Page<Models> = {
+  onEnter (state, prev, actions) {
+    actions.set('You have entered bar')
+    console.log('bar onEnter', state.location.pathname)
+  },
+  onUpdate (state, prev, actions) {
+    actions.set('You have updated bar')
+    console.log('bar onUpdate', state.location.pathname)
+  },
+  onLeave (state, prev, actions) {
+    actions.set('You have left bar')
+    console.log('bar onLeave', state.location.pathname)
+  },
+  view (state, prev, actions) {
+    return (
       <div>
-        <input value={state.title} onInput={(e: any) => actions.set(e.target.value)} />
+        <Links
+          onRouteClick={actions.location.set}
+        />
+        <h1>view two</h1>
+        {state.title}
+        <div>
+          <input value={state.title} onInput={(e: any) => actions.set(e.target.value)} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  },
 }
-function viewThree (state, prev, actions) {
-  return (
-    <div>
-      {links({
-        onRouteClick: path => actions.location.set(path),
-      })}
-      <h1>view three {state.location.params.baz}</h1>
-      {state.title}
+
+const pageThree: Helix.Page<Models> = {
+  onEnter (state, prev, actions) {
+    actions.set(`You have entered bar:/baz ${state.location.params.baz}`)
+    console.log('bar/:baz onEnter', state.location.pathname)
+  },
+  onUpdate (state, prev, actions) {
+    actions.set(`You have updated bar:/baz ${state.location.params.baz}`)
+    console.log('bar/:baz onUpdate', state.location.pathname)
+  },
+  onLeave (state, prev, actions) {
+    actions.set(`You have left bar:/baz ${state.location.params.baz}`)
+    console.log('bar/:baz onLeave', state.location.pathname)
+  },
+  view (state, prev, actions) {
+    return (
       <div>
-        <input value={state.title} onInput={(e: any) => actions.set(e.target.value)} />
+        <Links
+          onRouteClick={actions.location.set}
+        />
+        <h1>view three {state.location.params.baz}</h1>
+        {state.title}
+        <div>
+          <input value={state.title} onInput={(e: any) => actions.set(e.target.value)} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  },
 }
 
 let mount = document.createElement('div')
 document.body.appendChild(mount)
 
-const app = helix({
-  model: {
-    state: {
-      title: 'not set',
-    },
-    reducers: {
-      set (state, title) {
-        return Object.assign({}, state, {
-          title: title,
-        })
-      },
-    },
-    models: {
-      counter: {
-        scoped: true,
-        state: {
-          count: 1,
-        },
-        reducers: {
-          increment (state, amount) {
-            return {
-              count: state.count + (amount || 1),
-            }
-          },
-        },
-        effects: {
-          incrementAsync (state, actions) {
-            setTimeout(() => {
-              actions.increment(5)
-            }, 1000)
-          },
-        },
-        models: {
-          secondTitle: {
-            scoped: true,
-            state: {
-              title: 'hey',
-            },
-            reducers: {
-              update (state, title) {
-                return {
-                  title: title,
-                }
-              },
-            },
-          },
-        },
-      },
-      foo: {
-        state: {
-          bar: 'baz',
-        },
-      },
-    },
-  },
+const actions = HelixReact({
+  model:  model(),
   routes: {
-    '': viewOne,
-    'bar': {
-      onEnter (state, prev, actions) {
-        actions.set('You have entered bar')
-        console.log('bar onEnter', state.location.pathname)
-      },
-      onUpdate (state, prev, actions) {
-        actions.set('You have updated bar')
-        console.log('bar onUpdate', state.location.pathname)
-      },
-      onLeave (state, prev, actions) {
-        actions.set('You have left bar')
-        console.log('bar onLeave', state.location.pathname)
-      },
-      view: viewTwo,
-    },
-    'bar/:baz': {
-      onEnter (state, prev, actions) {
-        actions.set(`You have entered bar:/baz ${state.location.params.baz}`)
-        console.log('bar/:baz onEnter', state.location.pathname)
-      },
-      onUpdate (state, prev, actions) {
-        actions.set(`You have updated bar:/baz ${state.location.params.baz}`)
-        console.log('bar/:baz onUpdate', state.location.pathname)
-      },
-      onLeave (state, prev, actions) {
-        actions.set(`You have left bar:/baz ${state.location.params.baz}`)
-        console.log('bar/:baz onLeave', state.location.pathname)
-      },
-      view: viewThree,
-    },
+    '/': pageOne,
+    '/bar': pageTwo,
+    '/bar/:baz': pageThree,
   },
   mount,
 })
 
-console.log(app)
-app.set('I was set')
+setTimeout(() => {
+  actions.set('I was set')
+}, 2000)

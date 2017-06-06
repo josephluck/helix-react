@@ -225,10 +225,6 @@ document.body.appendChild(mount)
 
 helix({
   model: model(),
-  routes: {
-    '': {
-      view,
-    },
-  },
+  component: view,
   mount,
 })

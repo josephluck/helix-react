@@ -1,23 +1,20 @@
 {
   "name": "helix-react",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "React renderer for helix",
   "main": "lib/index.js",
   "files": [
-    "lib/index.js",
-    "lib/index.d.ts",
-    "lib/html.js",
-    "lib/html.d.ts",
-    "lib/log.js",
-    "lib/log.d.ts"
+    "src/",
+    "lib/"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/josephluck/helix-react"
   },
-  "types": "./lib/index.d.ts",
+  "typings": "./lib/types.d.ts",
   "scripts": {
-    "dist": "rm -rf ./lib && mkdir lib && tsc && npm run browserify && npm run minify",
+    "dist": "rm -rf ./lib && mkdir lib && tsc && npm run browserify && npm run minify && npm run types",
+    "types": "cp ./src/types.d.ts ./lib/types.d.ts",
     "browserify": "browserify -g babelify lib/index.js -o lib/bundle.js",
     "minify": "uglifyjs lib/bundle.js -c -m -o lib/bundle.min.js",
     "deploy": "npm run dist && npm publish"
@@ -38,8 +35,9 @@
   },
   "dependencies": {
     "@types/react": "^15.0.21",
-    "helix-js": "1.4.0",
+    "helix-js": "file:../helix",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "twine-js": "file:../twine"
   }
 }
