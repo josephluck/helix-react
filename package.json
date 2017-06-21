@@ -35,9 +35,9 @@
   },
   "dependencies": {
     "@types/react": "^15.0.21",
-    "helix-js": "file:../helix",
+    "helix-js": "git://github.com/josephluck/helix.git#feature/2.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "twine-js": "file:../twine"
+    "twine-js": "git://github.com/josephluck/twine.git#feature/2.0.0"
   }
 }
