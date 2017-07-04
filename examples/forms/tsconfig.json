@@ -1,12 +1,13 @@
 {
 	"compilerOptions": {
-		"target": "es3",
+		"target": "es6",
 		"module": "commonjs",
 		"allowJs": false,
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
 		"preserveConstEnums": true,
-		"outDir": "lib",
+		"declaration": true,
+		"outDir": "dist",
 		"sourceMap": false,
 		"lib": [
 			"es6",
@@ -15,7 +16,9 @@
 		],
 		"noUnusedLocals": true,
 		"strictNullChecks": false,
-		"removeComments": false
+		"removeComments": false,
+    "jsx": "react",
+    "jsxFactory": "h"
 	},
 	"include": [
 		"src/**/*"
