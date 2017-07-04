@@ -18,7 +18,7 @@
     "tsify": "^3.0.1",
     "tslint": "^4.4.2",
     "tslint-config-standard": "^4.0.0",
-    "twine-js": "file:../../../twine",
+    "twine-js": "git://github.com/josephluck/twine.git#feature/2.0.0",
     "typescript": "^2.2.1"
   }
 }

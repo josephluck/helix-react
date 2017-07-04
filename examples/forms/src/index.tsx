@@ -45,7 +45,7 @@ interface CommentsReducers {
   setComments: Twine.Reducer<Models, CommentsState, Comment[]>
 }
 interface CommentsEffects {
-  addNewComment: Twine.Effect0<Models>
+  addNewComment: Twine.Effect0<Models, Promise<null>>
 }
 type CommentsLocalActions = Twine.Actions<CommentsReducers, CommentsEffects, {}>
 
@@ -70,10 +70,11 @@ function commentsModel(): Twine.ModelImpl<CommentsLocalState, CommentsReducers, 
           setTimeout(() => {
             const newComments = state.comments.comments.concat(state.comments.form)
             actions.comments.setComments(newComments)
-            resolve(actions.comments.form.resetForm())
+            actions.comments.form.resetForm()
+            resolve(null)
           }, 1000)
         })
-      }
+      },
     },
     models: {
       form: formModel(() => {
